@@ -145,11 +145,11 @@ a:hover {
 }
 
 .btn-primary:hover {
-  filter: brightness(1.05);
-  text-decoration: none;
+  opacity: 0.92;
   transform: translateY(-1px);
   box-shadow: 0 14px 30px rgba(37, 99, 235, 0.45);
 }
+
 
 /* Small “button-like” links in cards */
 .card h3 a {
