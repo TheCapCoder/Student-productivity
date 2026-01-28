@@ -300,3 +300,14 @@ footer {
   color: var(--text-muted);
   font-size: 0.8rem;
 }
+@keyframes page-nudge {
+  0%   { opacity: 0.999; }
+  100% { opacity: 1; }
+}
+
+body {
+  /* your existing background: */
+  background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
+  animation: page-nudge 0.05s linear 1;
+}
+
