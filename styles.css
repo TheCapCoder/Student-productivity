@@ -150,6 +150,9 @@ a:hover {
   box-shadow: 0 14px 30px rgba(37, 99, 235, 0.45);
 }
 
+.btn-primary {
+  will-change: transform;
+}
 
 /* Small “button-like” links in cards */
 .card h3 a {
