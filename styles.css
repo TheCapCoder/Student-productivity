@@ -18,6 +18,11 @@
   box-sizing: border-box;
 }
 
+@keyframes page-nudge {
+  0%   { opacity: 0.999; }
+  100% { opacity: 1; }
+}
+
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -26,15 +31,22 @@ body {
   line-height: 1.5;
   position: relative;
   overflow-x: hidden;
+  animation: page-nudge 0.05s linear 1;
 }
 
 /* ----------------------------------------------------
    FLOATING BACKGROUND BLOBS (subtle “focus” glow)
+   now absolute and under content, not fixed/-1
 ---------------------------------------------------- */
+@keyframes float {
+  0%   { transform: translateY(0) translateX(0); }
+  100% { transform: translateY(-30px) translateX(25px); }
+}
+
 body::before,
 body::after {
   content: "";
-  position: fixed;
+  position: absolute;
   width: 420px;
   height: 420px;
   background: radial-gradient(circle at center,
@@ -43,7 +55,7 @@ body::after {
     transparent 70%
   );
   filter: blur(40px);
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   animation: float 18s ease-in-out infinite alternate;
 }
@@ -60,9 +72,12 @@ body::after {
   right: -80px;
 }
 
-@keyframes float {
-  0%   { transform: translateY(0) translateX(0); }
-  100% { transform: translateY(-30px) translateX(25px); }
+/* make sure main content sits above blobs */
+header,
+main,
+footer {
+  position: relative;
+  z-index: 1;
 }
 
 /* ----------------------------------------------------
@@ -70,13 +85,11 @@ body::after {
 ---------------------------------------------------- */
 header {
   border-bottom: 1px solid var(--border-subtle);
-  background: #020617;      /* solid, no transparency */
-  /* remove backdrop-filter to avoid Safari weirdness */
+  background: #020617; /* solid to avoid Safari blur issues */
   position: sticky;
   top: 0;
   z-index: 50;
 }
-
 
 .nav-container {
   max-width: 1100px;
@@ -143,16 +156,13 @@ a:hover {
   cursor: pointer;
   box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
   transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+  will-change: transform;
 }
 
 .btn-primary:hover {
   opacity: 0.92;
   transform: translateY(-1px);
   box-shadow: 0 14px 30px rgba(37, 99, 235, 0.45);
-}
-
-.btn-primary {
-  will-change: transform;
 }
 
 /* Small “button-like” links in cards */
@@ -300,14 +310,3 @@ footer {
   color: var(--text-muted);
   font-size: 0.8rem;
 }
-@keyframes page-nudge {
-  0%   { opacity: 0.999; }
-  100% { opacity: 1; }
-}
-
-body {
-  /* your existing background: */
-  background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
-  animation: page-nudge 0.05s linear 1;
-}
-
