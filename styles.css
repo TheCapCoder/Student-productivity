@@ -9,6 +9,9 @@
   --border-subtle: #1f2933;
 }
 
+/* ----------------------------------------------------
+   RESET + BASE
+---------------------------------------------------- */
 *,
 *::before,
 *::after {
@@ -21,20 +24,53 @@ body {
   background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
   color: var(--text-main);
   line-height: 1.5;
+  position: relative;
+  overflow-x: hidden;
 }
 
-a {
-  color: var(--accent);
-  text-decoration: none;
+/* ----------------------------------------------------
+   FLOATING BACKGROUND BLOBS (subtle “focus” glow)
+---------------------------------------------------- */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle at center,
+    rgba(37, 99, 235, 0.4),
+    rgba(37, 99, 235, 0.15),
+    transparent 70%
+  );
+  filter: blur(40px);
+  z-index: -1;
+  pointer-events: none;
+  animation: float 18s ease-in-out infinite alternate;
 }
 
-a:hover {
-  text-decoration: underline;
+/* top-left glow */
+body::before {
+  top: -80px;
+  left: -40px;
 }
 
+/* mid-right glow */
+body::after {
+  top: 45%;
+  right: -80px;
+}
+
+@keyframes float {
+  0%   { transform: translateY(0) translateX(0); }
+  100% { transform: translateY(-30px) translateX(25px); }
+}
+
+/* ----------------------------------------------------
+   HEADER + NAV
+---------------------------------------------------- */
 header {
   border-bottom: 1px solid var(--border-subtle);
-  background: rgba(15, 23, 42, 0.9);
+  background: rgba(15, 23, 42, 0.92);
   backdrop-filter: blur(10px);
   position: sticky;
   top: 0;
@@ -68,6 +104,8 @@ nav ul {
 nav a {
   font-size: 0.9rem;
   color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
 }
 
 nav a.active,
@@ -75,22 +113,73 @@ nav a:hover {
   color: var(--text-main);
 }
 
+/* ----------------------------------------------------
+   LINKS + BUTTONS
+---------------------------------------------------- */
+a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: none;
+  opacity: 0.92;
+}
+
+/* Main CTA button */
 .btn-primary {
-  display: inline-block;
-  padding: 0.55rem 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1.2rem;
   border-radius: 999px;
   background: linear-gradient(135deg, var(--accent), var(--accent-soft));
   color: #f9fafb;
   font-weight: 600;
   font-size: 0.9rem;
   border: none;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
 }
 
 .btn-primary:hover {
-  filter: brightness(1.08);
+  filter: brightness(1.05);
   text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.45);
 }
 
+/* Small “button-like” links in cards */
+.card h3 a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(37, 99, 235, 0.5);
+  color: #e5e7eb;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.card h3 a::after {
+  content: "↗";
+  font-size: 0.8rem;
+  margin-left: 0.25rem;
+  color: var(--accent);
+}
+
+.card h3 a:hover {
+  background: rgba(15, 23, 42, 1);
+  border-color: rgba(96, 165, 250, 0.9);
+}
+
+/* ----------------------------------------------------
+   MAIN LAYOUT
+---------------------------------------------------- */
 main {
   max-width: 1100px;
   margin: 0 auto;
@@ -137,6 +226,9 @@ main {
   margin: 0.25rem 0 0.75rem;
 }
 
+/* ----------------------------------------------------
+   GRID + CARDS
+---------------------------------------------------- */
 .grid {
   display: grid;
   gap: 1.25rem;
@@ -157,6 +249,7 @@ main {
 .card h2,
 .card h3 {
   margin-top: 0;
+  font-size: 1rem;
 }
 
 .card p {
@@ -164,11 +257,17 @@ main {
   font-size: 0.9rem;
 }
 
+/* ----------------------------------------------------
+   TYPOGRAPHY / TITLES
+---------------------------------------------------- */
 .section-title {
   font-size: 1.25rem;
   margin: 2rem 0 0.75rem;
 }
 
+/* ----------------------------------------------------
+   CTA BANNER
+---------------------------------------------------- */
 .cta-banner {
   margin-top: 2rem;
   border-radius: 1.25rem;
@@ -187,6 +286,9 @@ main {
   font-size: 0.95rem;
 }
 
+/* ----------------------------------------------------
+   FOOTER
+---------------------------------------------------- */
 footer {
   border-top: 1px solid var(--border-subtle);
   padding: 1.25rem;
